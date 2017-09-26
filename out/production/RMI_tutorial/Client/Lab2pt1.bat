@@ -1,0 +1,1 @@
+java -cp C:\Users\rsoln\IdeaProjects\RMI_tutorial\src;C:\Users\rsoln\IdeaProjects\RMI_tutorial\src\Compute\compute.jar -Djava.rmi.server.codebase=file:C:\Users\rsoln\IdeaProjects\RMI_tutorial\public_html\classes\ -Djava.security.policy=C:\Users\rsoln\IdeaProjects\RMI_tutorial\src\Client\client.policy Client.Client localhost

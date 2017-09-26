@@ -2,9 +2,10 @@ package Client;
 
 import Compute.Task;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Prime implements Task<ArrayList<Integer>> {
+public class Prime implements Task<ArrayList<Integer>>, Serializable {
 
     private int min;
     private int max;

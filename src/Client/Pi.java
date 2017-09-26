@@ -1,97 +1,52 @@
 package Client;
 
 import Compute.Task;
-import Compute.Compute;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class Pi implements Task<BigDecimal>, Serializable {
-
     private static final long serialVersionUID = 227L;
-
-    /** constants used in pi computation */
-    private static final BigDecimal FOUR =
-            BigDecimal.valueOf(4);
-
-    /** rounding mode to use during pi computation */
-    private static final int roundingMode =
-            BigDecimal.ROUND_HALF_EVEN;
-
-    /** digits of precision after the decimal point */
+    private static final BigDecimal FOUR = BigDecimal.valueOf(4L);
+    private static final int roundingMode = 6;
     private final int digits;
 
-    /**
-     * Construct a task to calculate pi to the specified
-     * precision.
-     */
-    public Pi(int digits) {
-        this.digits = digits;
+    public Pi(int var1) {
+        this.digits = var1;
     }
 
-    /**
-     * Calculate pi.
-     */
     public BigDecimal execute() {
-        return computePi(digits);
+        return computePi(this.digits);
     }
 
-    /**
-     * Compute the value of pi to the specified number of
-     * digits after the decimal point.  The value is
-     * computed using Machin's formula:
-     *
-     *          pi/4 = 4*arctan(1/5) - arctan(1/239)
-     *
-     * and a power series expansion of arctan(x) to
-     * sufficient precision.
-     */
-    public static BigDecimal computePi(int digits) {
-        int scale = digits + 5;
-        BigDecimal arctan1_5 = arctan(5, scale);
-        BigDecimal arctan1_239 = arctan(239, scale);
-        BigDecimal pi = arctan1_5.multiply(FOUR).subtract(
-                arctan1_239).multiply(FOUR);
-        return pi.setScale(digits,
-                BigDecimal.ROUND_HALF_UP);
+    public static BigDecimal computePi(int var0) {
+        int var1 = var0 + 5;
+        BigDecimal var2 = arctan(5, var1);
+        BigDecimal var3 = arctan(239, var1);
+        BigDecimal var4 = var2.multiply(FOUR).subtract(var3).multiply(FOUR);
+        return var4.setScale(var0, 4);
     }
-    /**
-     * Compute the value, in radians, of the arctangent of
-     * the inverse of the supplied integer to the specified
-     * number of digits after the decimal point.  The value
-     * is computed using the power series expansion for the
-     * arc tangent:
-     *
-     * arctan(x) = x - (x^3)/3 + (x^5)/5 - (x^7)/7 +
-     *     (x^9)/9 ...
-     */
-    public static BigDecimal arctan(int inverseX,
-                                    int scale)
-    {
-        BigDecimal result, numer, term;
-        BigDecimal invX = BigDecimal.valueOf(inverseX);
-        BigDecimal invX2 =
-                BigDecimal.valueOf(inverseX * inverseX);
 
-        numer = BigDecimal.ONE.divide(invX,
-                scale, roundingMode);
+    public static BigDecimal arctan(int var0, int var1) {
+        BigDecimal var5 = BigDecimal.valueOf((long)var0);
+        BigDecimal var6 = BigDecimal.valueOf((long)(var0 * var0));
+        BigDecimal var3 = BigDecimal.ONE.divide(var5, var1, 6);
+        BigDecimal var2 = var3;
+        int var7 = 1;
 
-        result = numer;
-        int i = 1;
+        BigDecimal var4;
         do {
-            numer =
-                    numer.divide(invX2, scale, roundingMode);
-            int denom = 2 * i + 1;
-            term =
-                    numer.divide(BigDecimal.valueOf(denom),
-                            scale, roundingMode);
-            if ((i % 2) != 0) {
-                result = result.subtract(term);
+            var3 = var3.divide(var6, var1, 6);
+            int var8 = 2 * var7 + 1;
+            var4 = var3.divide(BigDecimal.valueOf((long)var8), var1, 6);
+            if (var7 % 2 != 0) {
+                var2 = var2.subtract(var4);
             } else {
-                result = result.add(term);
+                var2 = var2.add(var4);
             }
-            i++;
-        } while (term.compareTo(BigDecimal.ZERO) != 0);
-        return result;
+
+            ++var7;
+        } while(var4.compareTo(BigDecimal.ZERO) != 0);
+
+        return var2;
     }
 }

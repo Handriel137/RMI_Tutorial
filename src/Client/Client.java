@@ -52,8 +52,9 @@ public class Client {
                         int max = scanner.nextInt();
 
                         Prime primeTask = new Prime(min, max);
-                        ArrayList<Integer> primeslist = comp.executeTask(primeTask);
-                        System.out.println(primeslist);
+
+                        ArrayList<Integer> primesList = comp.executeTask(primeTask);
+                        System.out.println(primesList);
                         break;
 
                     case 3:
@@ -66,7 +67,7 @@ public class Client {
                 }
             }
         } catch (Exception e) {
-            System.err.println("ComputePi exception:");
+            System.err.println("Client exception:");
             e.printStackTrace();
         }
 
